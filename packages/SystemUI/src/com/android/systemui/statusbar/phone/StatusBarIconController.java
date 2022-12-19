@@ -320,7 +320,7 @@ public interface StatusBarIconController {
     /**
      * Turns info from StatusBarIconController into ImageViews in a ViewGroup.
      */
-    class IconManager implements DemoModeCommandReceiver  {
+    class IconManager implements DemoModeCommandReceiver {
         protected final ViewGroup mGroup;
         private final StatusBarLocation mLocation;
         private final StatusBarPipelineFlags mStatusBarPipelineFlags;
@@ -338,9 +338,6 @@ public interface StatusBarIconController {
         protected DemoStatusIcons mDemoStatusIcons;
 
         protected ArrayList<String> mBlockList = new ArrayList<>();
-
-		private boolean mIsOldSignalStyle = false;
-
         private final boolean mNewIconStyle;
         private final boolean mShowNotificationCount;
 
@@ -470,7 +467,6 @@ public interface StatusBarIconController {
             StatusBarMobileView view = onCreateStatusBarMobileView(state.subId, slot);
             view.applyMobileState(state);
             mGroup.addView(view, index, onCreateLayoutParams());
-            view.updateDisplayType(mIsOldSignalStyle);
 
             if (mIsInDemoMode) {
                 Context mobileContext = mMobileContextProvider
@@ -670,19 +666,6 @@ public interface StatusBarIconController {
 
         protected DemoStatusIcons createDemoStatusIcons() {
             return new DemoStatusIcons((LinearLayout) mGroup, mIconSize);
-        }
-
-        protected void setMobileSignalStyle(boolean isOldSignalStyle) {
-            mIsOldSignalStyle = isOldSignalStyle;
-        }
-
-        protected void updateMobileIconStyle() {
-            for (int i = 0; i < mGroup.getChildCount(); i++) {
-                final View child = mGroup.getChildAt(i);
-                if (child instanceof StatusBarMobileView) {
-                    ((StatusBarMobileView) child).updateDisplayType(mIsOldSignalStyle);
-                }
-            }
         }
     }
 }
